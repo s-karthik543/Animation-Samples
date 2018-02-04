@@ -11,7 +11,7 @@ import {
     TouchableOpacity,
     ToastAndroid
 } from 'react-native';
-import PropTypes from 'prop-types';
+import PropTypes, { element } from 'prop-types';
 const { width, height } = Dimensions.get('window')
 const DEFAULT_TOOLBAR_HEIGHT = 300;
 
@@ -46,7 +46,7 @@ export default class CollapsibleToolbar extends Component {
         this.navBarHeight = 130//APPBAR_HEIGHT + this.statusBarHeight;
         this.maxScrollableHeight = props.toolBarHeight - this.navBarHeight;
 
-        const inputRange1 = [this.maxScrollableHeight / 2, this.maxScrollableHeight];
+        const inputRange1 = [this.maxScrollableHeight - 10, this.maxScrollableHeight+30];
         const inputRange2 = [this.maxScrollableHeight - 0.1, this.maxScrollableHeight];
 
         const infoRnge = [200, 210];
@@ -57,6 +57,7 @@ export default class CollapsibleToolbar extends Component {
 
 
         this.scrollOffsetY = new Animated.Value(0);
+        this.toolbar = new Animated.Value(0)
 
         this.infoBarOpacity = this.scrollOffsetY.interpolate({
             inputRange: infoRnge,
@@ -68,9 +69,9 @@ export default class CollapsibleToolbar extends Component {
             outputRange: [0, -30]
         });
 
-        this.toolbarTranslate = this.scrollOffsetY.interpolate({
-            inputRange: [0, 200],
-            outputRange: [-5,0]
+        this.toolbarTranslate = this.toolbar.interpolate({
+            inputRange: [0, 150],
+            outputRange: [-250, 0]
         });
 
         this.toolBarOpacity = this.scrollOffsetY.interpolate({
@@ -85,7 +86,7 @@ export default class CollapsibleToolbar extends Component {
 
         this.navBarOpacity = this.scrollOffsetY.interpolate({
             inputRange: infoRnge,
-            outputRange: [1, 1]
+            outputRange: [0, 1]
         });
 
         this.navBarOverlayOpacity = this.scrollOffsetY.interpolate({
@@ -101,6 +102,11 @@ export default class CollapsibleToolbar extends Component {
     componentWillMount() {
         this.scrollOffsetY.addListener(({ value }) => {
             console.log("Value ", value)
+            if (value > 150) {
+                this.toolbar.setValue(150)
+            } else {
+                this.toolbar.setValue(value)
+            }
             // this._value = value
             if (this.props.isExpand) {
                 this.props.toggleExpandVisibilty(false)

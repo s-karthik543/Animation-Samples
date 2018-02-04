@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
     View,
     Animated,
+    Button,
     PanResponder
 } from 'react-native'
 
@@ -51,13 +52,13 @@ export default class SildeButton extends Component {
                         { toValue: { x: 0, y: 0 } }     //Step 3
                     ).start();
                 } else if (this._valueX > 125) {
-                    this.setState({ isOnDuty: true })                                            
+                    this.setState({ isOnDuty: true })
                     Animated.spring(            //Step 1
                         this.state.pan,
                         //Step 2
                         { toValue: { x: 250, y: 0 } }     //Step 3
-                    ).start(()=>{
-                    // this.setState({ isOnDuty: true })                        
+                    ).start(() => {
+                        // this.setState({ isOnDuty: true })                        
                     });
                 }
                 /*   let currentPosition = height - peekHeight + this._valueY
@@ -94,6 +95,8 @@ export default class SildeButton extends Component {
 
 
                 </View>
+
+                <Button title='Close' onPress={() => this.props.navigation.navigate('Ripple')} />
 
             </View >
         )
