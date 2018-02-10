@@ -19,6 +19,7 @@ import Translation from './src/Translation'
 import SlideButton from './src/SlideButton';
 import Ripple from './src/Ripple'
 import Seekbar from './src/Seekbar';
+import ImageHolder from './src/ImageHolder';
 import { StackNavigator } from 'react-navigation';
 
 export default class App extends Component {
@@ -28,7 +29,9 @@ export default class App extends Component {
   }
   render() {
     return (
-      <Routes ref="nav" />
+      <View style={{ flex: 1,backgroundColor:'#456' }} >
+        <ImageHolder style={{ height: 300, borderRadius: 25 }} source={{ uri: 'https://3lhowb48prep40031529g5yj-wpengine.netdna-ssl.com/wp-content/uploads/2016/04/react_native_image_placeholders_3.png' }} defaultSource={require('./assets/back_icon.png')} />
+      </View>
     );
   }
 }
@@ -121,7 +124,7 @@ const MyTransitionSpec = ({
 
 const Routes = StackNavigator({
   Slider: {
-    screen: SlideButton
+    screen: Ripple
   },
   Ripple: {
     screen: CollapseDemo
@@ -129,6 +132,6 @@ const Routes = StackNavigator({
 }, {
     transitionSpec: MyTransitionSpec,
     transitionConfig: TransitionConfiguration,
-    header:null,
-    headerMode:'none'
+    header: null,
+    headerMode: 'none'
   })
